@@ -1,0 +1,21 @@
+---
+- name: Deploy to Staging
+  hosts: all
+  become: true
+  tasks:
+    - name: Pull Docker image
+      docker_image:
+        name: "jack1811/assessment2"
+        tag: "latest"
+        source: pull
+
+    - name: Run the Docker container
+      docker_container:
+        name: "assessment2_app_container"
+        image: "jack1811/assessment2:latest"
+        state: started
+        restart_policy: always
+        exposed_ports:
+          - "8080"
+        published_ports:
+          - "8080:8080"
